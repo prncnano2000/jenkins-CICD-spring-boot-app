@@ -6,20 +6,18 @@
 
 ![alt text](<CICD Jenkins.png>)
 
-Ce projet démontre comment configurer `un pipeline CI/CD` en utilisant Jenkins pour une application `Spring Boot` conteneurisée avec Docker. Nous allons également configurer `SonarCloud` pour l'analyse de la qualité du code et utiliser des `conteneurs MySQL` pour les environnements de staging et de production.
+This project demonstrates how to configure a `CI/CD pipeline` using Jenkins for a `Spring Boot` application containerized with Docker. We will also configure `SonarCloud` for code quality analysis and use `MySQL containers` for staging and production environments.
 
-Structure du pipeline:
+Pipeline structure:
 
-Récupération du code ==> 
- Construction de l'image Docker ==>
- Analyse de code SonarCloud ==>
- Tests unitaires ==>
- Déploiement en Staging ==>
- Tests d'intégration ==>
- Déploiement en Production ==>
- Surveillance.
-
-
+Retrieving the code ==>
+ Building the Docker image ==>
+ SonarCloud code analysis ==>
+ Unit tests ==>
+ Deployment in Staging ==>
+ Integration tests ==>
+ Deployment in Production ==>
+ Monitoring.
 
 
 
@@ -42,29 +40,34 @@ Récupération du code ==>
 
 
 
-- `Checkout` : Récupération du code source depuis le dépôt Git.
+- `Checkout`: Retrieving the source code from the Git repository.
 
-- `SonarQube Analysis` : Analyse de la qualité du code avec SonarCloud.
+- `SonarQube Analysis`: Analysis of code quality with SonarCloud.
 
-- `Build Docker Images` : Construction des images Docker pour l'application Spring Boot et la base de données MySQL.
+- `Build Docker Images`: Construction of Docker images for the Spring Boot application and the MySQL database.
 
-- `Test` : Exécution des tests unitaires.
+- `Test`: Execution of unit tests.
 
-- `Push to DockerHub` : Poussée des images Docker vers DockerHub.
+- `Push to DockerHub`: Pushing Docker images to DockerHub.
 
-- `Deploy to Staging` : Déploiement des conteneurs sur l'environnement de staging.
+- `Deploy to Staging`: Deployment of containers to the staging environment.
 
-- `Deploy to Production` : Déploiement des conteneurs sur l'environnement de production.
+- `Deploy to Production`: Deployment of containers to the production environment.
+
+
+  
 ## Prerequisites
 
 
-- Un serveur Jenkins en cours d'exécution.
+- A running Jenkins server.
 
-- Docker installé sur votre serveur Jenkins.
+- Docker installed on your Jenkins server.
 
-- Un compte GitHub pour stocker votre code d'application Flask.
+- A GitHub account to store your spring boot application code.
 
-- avoir un compte sonarcloud 
+- have a sonarcloud account
+
+  
 ## Installation
 
 
@@ -82,73 +85,73 @@ In your command prompt download the repo with the commands:
 ## Deployment
 
 
-1. **Créer un `référentiel Git` pour votre application**:
+1. **Create a `Git repository` for your application**:
 
-    a - Créez un `nouveau référentiel Git` sur GitHub ou un autre fournisseur d'hébergement de code.
+ a - Create a `new Git repository` on GitHub or another code hosting provider.
 
-    b - Clonez le référentiel sur votre machine de développement.
+ b - Clone the repository on your development machine.
 
-    c - Ajoutez vos fichiers de code au référentiel Git et effectuez des commits.
-
-
-2.  **Configurer Jenkins** :
-
-    a - Accédez à l'interface Web de Jenkins.
-
-    b - Créez un nouveau projet en sélectionnant `Nouveau projet`.
-
-    c - Ajoutez vos identifiants DockerHub dans les Crédits Jenkins.
-
-    d - Ajoutez votre token SonarCloud dans les Crédits Jenkins :
-        
-        - Configurer SonarCloud : Dans Jenkins, allez dans "Manage Jenkins" > "Configure System" et ajoutez SonarCloud sous "SonarQube Servers".
+ c - Add your code files to the Git repository and make commits.
 
 
-    e - Donnez un nom à votre projet, par exemple `PayMyBuddy`.
+2. **Configure Jenkins**:
 
-    f - Sélectionnez `Git` comme `système de contrôle de version`.
+ a - Access the Jenkins web interface.
 
-    g - Saisissez `l'URL du référentiel` Git de votre application.
+ b - Create a new project (job) by selecting `New project`.
 
-    f - Définissez les informations d'identification Git si nécessaire.
+ c - Add your `DockerHub credentials` to Jenkins Credits.
+
+ d - Add your `SonarCloud token` to Jenkins Credits:
+
+   - Configure SonarCloud: In Jenkins, go to "Manage Jenkins" > "Configure System" and add SonarCloud under "SonarQube Servers".
 
 
+ e - Give your project a name, for example `PayMyBuddy`.
 
-3. **Créer un pipeline de construction** :
+ f - Select `Git` as `version control system`.
 
-    a - Sélectionnez l'onglet `Pipeline`.
+ g - Enter the `Git repository URL` of your application.
 
-    b - Cliquez sur `Nouveau pipeline`.
-
-    c - Choisissez `Pipeline Scripted`.
-
-    d - Collez le script `Jenkinsfile` de ce dépot git dans l'éditeur de script.
+ f - Set Git credentials if necessary.
 
 
 
-4. **Enregister et exécuter le pipeline** :
+3. **Create a build pipeline**:
 
-    a - Enregistrez le pipeline Jenkins.
+ a - Select the `Pipeline` tab.
 
-    b - Démarrez le pipeline `manuellement` ou configurez un déclencheur pour qu'il s'exécute `automatiquement` chaque fois que vous poussez du code vers le référentiel Git.
+ b - Click on `New pipeline`.
+
+ c - Choose `Pipeline Scripted`.
+
+ d - Paste the `Jenkinsfile` script from this git repository into the script editor.
 
 
-A. `Déploiement manuellement` : 
-- Accédez à l'interface Web de Jenkins.
-- Sélectionnez votre projet Flask.
-- Cliquez sur le bouton "Build Now" pour lancer le pipeline manuellement.
 
-B. `Déploiement automatique` : 
-- Configurez un webhook dans votre fournisseur d'hébergement de code (GitHub, GitLab, etc.) pour envoyer une notification à Jenkins chaque fois que vous poussez du code vers le référentiel.
-- Jenkins déclenchera automatiquement le pipeline lorsqu'il recevra une notification de webhook.
+4. **Save and run the pipeline**:
+
+ a - Save the Jenkins pipeline.
+
+ b - Start the pipeline `manually` or configure a trigger to run `automatically` every time you push code to the Git repository.
+
+
+A. `Manually deployed`:
+- Access the Jenkins web interface.
+- Select your spring boot project.
+- Click the “Build Now” button to launch the pipeline manually.
+
+B. `Automatic deployment`:
+- Configure a webhook in your code hosting provider (GitHub, GitLab, etc.) to send a notification to Jenkins whenever you push code to the repository.
+- Jenkins will automatically trigger the pipeline when it receives a webhook notification.
 
 **```Conclusion```**
 
-Vous avez maintenant `un pipeline CI-CD` fonctionnel pour une application `Flask` utilisant `Jenkins et Docker`. Ce pipeline construira votre image Docker, effectuera des tests, ferra le push de l'image sur DockerHub et déploira l'application sur l'environnement de staging ou de production.
+You now have `a working CI-CD pipeline` for a `Flask` ​​application using `Jenkins and Docker`. This pipeline will build your Docker image, run tests, push the image to DockerHub and deploy the application to the staging or production environment.
 
 
 
-Pour plus de détailles consultez la video suivante : [Jenkins-CI-CD-spring-boot-app](https://youtu.be/0R0g8xvpgtM?si=jxs63dXDIZpRINLj)
+ For more details, see the following video: [Jenkins-CI-CD-spring-boot-app](https://youtu.be/0R0g8xvpgtM?si=jxs63dXDIZpRINLj)
 
 
 ## Authors
